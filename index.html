@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web App KTTV Quảng Trị</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Montserrat", sans-serif;
+      color: white;
+      background: linear-gradient(135deg, #2563eb, #06b6d4, #60a5fa);
+      background-size: 300% 300%;
+      animation: gradientMove 12s ease infinite;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Nền ảnh trên và dưới */
+    .bg-top, .bg-bottom {
+      position: absolute;
+      width: 100%; height: 50%;
+      left: 0;
+      background-size: cover;
+      background-position: center;
+      filter: blur(3px);
+      opacity: 0.45;
+      z-index: 0;
+    }
+    .bg-top { top: 0; background-image: url('images.jpg'); }
+    .bg-bottom { bottom: 0; background-image: url('anhpctt.jpg'); }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,30,0.3), rgba(0,0,50,0.35));
+      z-index: 1;
+    }
+
+    /* Tia sét */
+    .flash {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.8), rgba(224,247,255,0.1));
+      opacity: 0;
+      z-index: 3;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      width: 90%;
+      max-width: 900px;
+    }
+
+    /* Tiêu đề lớn phía trên */
+    .main-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      animation: fadeIn 2s ease forwards;
+    }
+
+    .logo {
+      width: 130px;
+      height: 130px;
+      margin: 0 auto 1rem;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 25px rgba(255,255,255,0.4);
+      animation: fadeIn 2s ease forwards;
+    }
+
+    .logo img {
+      width: 105px;
+      height: 105px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 0.4rem;
+      text-shadow: 0 3px 6px rgba(0,0,0,0.3);
+      animation: fadeIn 2s ease 0.2s forwards;
+      opacity: 0;
+    }
+
+    h2 {
+      font-weight: 400;
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+      animation: fadeIn 2s ease 0.5s forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      animation: fadeIn 2s ease 1s forwards;
+      opacity: 0;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 1rem 2.5rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      color: white;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(6px);
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover { transform: translateY(-5px) scale(1.05); }
+
+    .btn-water { background: linear-gradient(45deg, #3b82f6, #1e3a8a); }
+    .btn-rain { background: linear-gradient(45deg, #38bdf8, #0ea5e9); }
+
+    footer {
+      position: absolute;
+      bottom: 8px;
+      font-size: 0.8rem;
+      opacity: 0.85;
+      text-align: center;
+      z-index: 2;
+      width: 100%;
+    }
+
+    .sound-btn {
+      position: absolute;
+      bottom: 18px;
+      right: 22px;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: white;
+      border-radius: 50%;
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(8px);
+      z-index: 4;
+    }
+    .sound-btn:hover { transform: scale(1.1); }
+
+    /* Giọt nước */
+    .drop {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 50%;
+      animation: fall 4s linear infinite;
+      z-index: 2;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-10vh); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translateY(100vh); opacity: 0; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .main-title { font-size: 1.1rem; padding: 0 10px; }
+      h1 { font-size: 1.6rem; }
+      h2 { font-size: 0.9rem; }
+      .btn { padding: 0.9rem 2rem; font-size: 1.1rem; }
+      .logo { width: 110px; height: 110px; }
+      .logo img { width: 90px; height: 90px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-top"></div>
+  <div class="bg-bottom"></div>
+  <div class="overlay"></div>
+  <div class="flash" id="flash"></div>
+
+  <div class="content">
+    <div class="main-title">
+      WEB APP KHAI THÁC SỐ LIỆU MƯA - MỰC NƯỚC<br>PHỤC VỤ CÔNG TÁC PHÒNG CHỐNG THIÊN TAI
+    </div>
+
+    <div class="logo">
+      <img src="KTTVQTRI.jpg" alt="Logo Đài KTTV Quảng Trị">
+    </div>
+
+    <h1><i class="ri-earth-fill"></i> ĐÀI KHÍ TƯỢNG THỦY VĂN QUẢNG TRỊ</h1>
+    <h2>Thiết kế & lập trình: Ngô Hải Dương</h2>
+
+    <div class="buttons">
+      <button class="btn btn-water" onclick="openApp('https://mucnuocquangtri.netlify.app/')">
+        <i class="ri-water-flash-fill"></i> MỰC NƯỚC
+      </button>
+      <button class="btn btn-rain" onclick="openApp('https://muaquangtri.netlify.app/')">
+        <i class="ri-cloud-rain-fill"></i> MƯA
+      </button>
+    </div>
+  </div>
+
+  <footer>© 2025 Đài Khí tượng Thủy văn Quảng Trị — Số 112 Hữu Nghị, Đồng Hới</footer>
+
+  <button class="sound-btn" id="soundBtn" title="Bật/Tắt âm thanh">
+    <i class="ri-volume-up-fill"></i>
+  </button>
+
+  <audio id="bgAudio" loop autoplay>
+    <source src="https://cdn.pixabay.com/download/audio/2021/10/22/audio_5b3c186b1c.mp3?filename=rain-and-thunder-ambient-110856.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    function openApp(url) { window.open(url, '_blank'); }
+
+    // Giọt nước
+    for(let i=0; i<25; i++){
+      const drop = document.createElement('div');
+      drop.classList.add('drop');
+      drop.style.left = Math.random()*100 + 'vw';
+      drop.style.animationDuration = (3 + Math.random()*4) + 's';
+      drop.style.opacity = Math.random();
+      document.body.appendChild(drop);
+    }
+
+    // Âm thanh
+    const audio = document.getElementById('bgAudio');
+    const soundBtn = document.getElementById('soundBtn');
+    let isPlaying = true;
+    soundBtn.addEventListener('click', () => {
+      if (isPlaying) { audio.pause(); soundBtn.innerHTML = '<i class="ri-volume-mute-fill"></i>'; }
+      else { audio.play(); soundBtn.innerHTML = '<i class="ri-volume-up-fill"></i>'; }
+      isPlaying = !isPlaying;
+    });
+
+    // Hiệu ứng sét
+    const flash = document.getElementById('flash');
+    function lightning() {
+      const delay = Math.random() * 5000 + 3000; 
+      setTimeout(() => {
+        flash.style.opacity = '1';
+        setTimeout(() => { flash.style.opacity = '0'; }, 200 + Math.random()*400);
+        lightning();
+      }, delay);
+    }
+    lightning();
+  </script>
+</body>
+</html>
